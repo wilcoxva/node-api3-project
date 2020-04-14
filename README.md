@@ -31,11 +31,11 @@ Follow these steps for completing your project.
 1. Add endpoints to retrieve the list of `posts` for a `user` and to store a new `post` for a `user`.
 
 #### Custom Middleware Requirements
-
+<!-- 
 - `logger()`
 
   - `logger` logs to the console the following information about each request: request method, request url, and a timestamp
-  - this middleware runs on every request made to the API
+  - this middleware runs on every request made to the API -->
 
 - `validateUserId()`
 
