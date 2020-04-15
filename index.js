@@ -1,8 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const logger = require("./middleware/logger")
-const welcomeRouter = require("./welcome/welcome-router")
-const usersRouter = require("./users/users-router")
+const userRouter = require("./users/userRouter")
 
 const server = express()
 const port = 4000
@@ -12,8 +11,7 @@ server.use(cors())
 
 server.use(logger)
 
-server.use("/", welcomeRouter)
-server.use("/users", usersRouter)
+server.use("/users", userRouter)
 
 server.use((req, res) => {
 	res.status(404).json({
@@ -25,7 +23,7 @@ server.use((error, req, res, next) => {
 	console.log(err)
 	res.status(500).json({
 		message: "Something went wrong",
-	})
+    })
 })
 
 server.listen(port, () => {
