@@ -1,3 +1,5 @@
+const users = require("../users/userDb")
+
 module.exports = () => {
     function validateUserId() {
 	return (req, res, next) => {
