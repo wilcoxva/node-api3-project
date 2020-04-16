@@ -63,6 +63,7 @@ router.put('/:id', validatePostId, (req, res) => {
 
 // custom middleware
 
+
 function validatePostId(req, res, next) {
   posts.getById(req.params.id)
 		.then((post) => {
