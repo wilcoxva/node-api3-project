@@ -1,5 +1,6 @@
 const express = require('express')
 const users = require("../users/userDb")
+const posts = require("../posts/postDb")
 
 const router = express.Router();
 
@@ -17,13 +18,16 @@ router.post('/', validateUser, (req, res) => {
 });
 
 router.post("/:id/posts", validatePost, validateUserId, (req, res, next) => {
-  users.insert({ ...req.body, user_id: req.id })
+  posts.insert({ ...req.body, user_id: req.params.id })
     .then((post) => {
       res.status(201).json(post)
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch((error) => {
+      console.log(error)
+        res.status(500).json({
+          message: "Error creating the post",
+        })
+    })
 });
 
 router.get('/', (req, res) => {
@@ -120,39 +124,33 @@ function validateUserId(req, res, next) {
 }
 
 function validateUser(req, res, next) {
-  users.insert(req.body)
-    .then((user) => {
-        if (req.body) {
-            res.json(user)
-        } else {
-            res.status(400).json({
-                 message: "missing required name field",
-            })
-        } next()
+  console.log(req.body)
+  if (req.body) {
+    if (req.body.name) {
+      next()
+    } else { res.status(400).json({
+      message: "Please send a name"
+    }) }
+  } else {
+    res.status(400).json({
+      message: "Missing user data"
     })
-    .catch((error) => {
-        error.status(400).json({
-            message: "Error validating the user",
-        })
-    })
+  }
 }
 
 function validatePost(req, res, next) {
-  users.insert(req.body)
-    .then((post) => {
-        if (req.body) {
-            res.json(post)
-        } else {
-            res.status(400).json({
-                 message: "missing required text field",
-            })
-        } next()
+  console.log(req.body)
+  if (req.body) {
+    if (req.body.text) {
+      next()
+    } else { res.status(400).json({
+      message: "Please send the proper text"
+    }) }
+  } else {
+    res.status(400).json({
+      message: "Missing post data"
     })
-    .catch((error) => {
-        error.status(400).json({
-            message: "Error validating the post",
-        })
-    })
+  }
 }
 
 module.exports = router;
